@@ -1,0 +1,32 @@
+trigger:
+  branches:
+    include:
+      - master
+
+pool: 
+  vmImage: 'ubuntu-latest'
+
+variables:
+- group: ts-stg-vars
+
+steps:
+- script: |
+    docker build -t $(dockerID).azurecr.io/$(FrontendImageName):stg  .
+    docker login -u $(dockerUser) -p $(dockerPassword) $(dockerID).azurecr.io
+    docker push $(dockerID).azurecr.io/$(FrontendImageName):stg
+  displayName: 'TS Backend Build'
+
+- task: DownloadSecureFile@1
+  name: keytodev
+  displayName: 'Download the Key to dev'
+  inputs:
+    secureFile: 'keytodev'
+
+- script: |
+    sudo chmod 400 $(keytodev.secureFilePath)
+    sudo mv $(keytodev.secureFilePath) /tmp/keytodev
+
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: ssh -o StrictHostKeyChecking=no -i /tmp/keytodev root@ts-stg.codeskimmer.com '/opt/projects/T-Signal/update.sh frontend'
