@@ -1,10 +1,8 @@
-import Image from 'next/image'
-import styles from './page.module.css'
-import { Toggle } from './toggle'
+import { Login } from './login'
 
-export default function Home() {
+export default function LoginPage() {
 
   return (
-<Toggle></Toggle>
+    <Login></Login>
   )
 }
