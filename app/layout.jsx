@@ -10,8 +10,7 @@ export default function RootLayout({ children }) {
       */}
       <head />
       <body>
-        <MainLayout>
-          {children}</MainLayout>
+        <MainLayout>{children}</MainLayout>
       </body>
     </html>
   );
