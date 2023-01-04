@@ -1,12 +1,49 @@
 "use client";
 
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useRouter } from 'next/navigation';
 import Image from "next/image";
 import styles from "./page.module.css";
+import { validateEmail } from "../utils/utils";
+import Input from "../components/Input";
+import AppActions from "../redux/actions/app";
 
 export function Login() {
+  const dispatch = useDispatch();
+  const router = useRouter()
+
   const [show, setShow] = useState(false);
   const [error, setError] = useState(false);
+
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState("");
+
+  const handleEmail = (e) => {
+    if (validateEmail(e)) {
+      setEmail(e);
+      setError("");
+    } else setError("Invalid Email format eg. test@gmail.com");
+  };
+
+  const handleLogin = () => {
+    if (!email) setEmailError("Email is required");
+    if (!password) setPasswordError("Password is required");
+    if (!email && !password) return null;
+    if (email && password) {
+      dispatch(
+        AppActions.postloginRequest({
+          email: email,
+          password,
+          locationId: location.id,
+        }, handleNavigation)
+      );
+    }
+  };
+
+  const handleNavigation = () => {
+    router.push('/dashboard')
+  }
 
   return (
     <div
@@ -32,19 +69,19 @@ export function Login() {
               try again.
             </div>
           )}
-          <input
-            className="shadow w-80 h-14 appearance-none borde bg-neutral-100 border-neutral-200 rounded py-2 px-3 text-neutral-400 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+          <Input
+            value={email}
             type="text"
             placeholder="Enter your email address"
+            onChange={(e) => setEmail(e)}
           />
-          <div className="relative">
-            <input
-              className="shadow w-80 h-14 appearance-none borde bg-neutral-100 border-neutral-200 rounded py-2 px-3 text-neutral-400 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-              placeholder="Enter your password"
-              type={show ? "password" : "text"}
-            />
-            <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
-              {show ? (
+          <Input
+            placeholder="Enter your password"
+            type={show ? "password" : "text"}
+            value={password}
+            onChange={(e) => setPassword(e)}
+            postIcon={
+              show ? (
                 <Image
                   src="/icon/eye.svg"
                   className="cursor-pointer mb-2"
@@ -64,16 +101,16 @@ export function Login() {
                   color="#F9F9F9"
                   onClick={() => setShow(!show)}
                 />
-              )}
-            </div>
-          </div>
+              )
+            }
+          />
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center flex-row gap-1">
               <input
-                class="rounded border-solid border-2 border-blue-700"
+                className="rounded border-solid border-2 border-blue-700"
                 type="checkbox"
               />
-              <span class="text-sm">Remember Me</span>
+              <span className="text-sm">Remember Me</span>
             </div>
             <div className="text-sm font-medium text-blue-700">
               Forgot My Password
@@ -84,9 +121,10 @@ export function Login() {
             <button
               className="w-full bg-blue-600 hover:bg-blue-700 py-2 px-4 rounded border border-solid border-blue-600 focus:outline-none focus:shadow-outline flex justify-between items-center"
               type="button"
+              onClick={handleLogin}
             >
               <div className="text-blue-50 text-base font-medium ">Sign In</div>
-              <Image src={"/icon/signin.svg"} width={20} height={20} />
+              <Image src={"/icon/signin.svg"} width={20} height={20} alt="icon" />
             </button>
           </div>
 
@@ -99,7 +137,7 @@ export function Login() {
               className="w-48 bg-blue-50 hover:bg-blue-100 py-2 px-4 rounded border border-solid border-blue-600 focus:outline-none focus:shadow-outline flex justify-between items-center"
               type="button"
             >
-              <Image src={"/icon/people_plus.svg"} width={20} height={20} />
+              <Image src={"/icon/people_plus.svg"} width={20} height={20} alt="logo" />
               <div className="text-blue-600 text-base font-medium ">
                 Sign Up
               </div>

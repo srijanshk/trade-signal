@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const Config = {
-  API_URL: process.env.API_URL,
+  API_URL: process.env.NEXT_PUBLIC_API_URL,
 };
 
 const authenticated = (api) => {
@@ -31,10 +31,12 @@ const create = (baseURL = Config.API_URL) => {
     timeout: 50000,
   });
 
-  const postLogin = (payload) => api.post("user/login", payload);
+  const postLogin = (payload) => api.post("auth/email/login", payload);
+  const postRegistration = (payload) => api.post("auth/email/register", payload)
 
   return {
     postLogin,
+    postRegistration
   };
 };
 

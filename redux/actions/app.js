@@ -8,9 +8,17 @@ import { createActions } from "reduxsauce";
  * payload must only contain that is sent to server, beside that keep other variable separated
  */
 const { Types, Creators } = createActions({
-  postloginRequest: ["payload"],
-  postloginSuccess: ["response"],
+  postloginRequest: ['payload', 'callBack'],
+  postloginSuccess: ['response'],
   postloginFailure: null,
+
+  postlogoutRequest: null,
+  postlogoutSuccess: null,
+  postlogoutFailure: null,
+
+  postuserregistrationRequest: ['payload'],
+  postuserregistrationSuccess: ['response'],
+  postuserregistrationFailure: null,
 
   // Clear all caches
   clearRequest: null,
