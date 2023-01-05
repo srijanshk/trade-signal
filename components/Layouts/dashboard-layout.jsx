@@ -82,7 +82,7 @@ export default function DashboardLayout({ children }) {
           </div>
         </div>
       </aside>
-      <div className="flex flex-col items-start p-0 gap-px w-full">
+      <div className="flex flex-col items-start p-0 gap-px w-full h-screen">
         <header className="flex flex-row items-center justify-between px-7 py-5 w-full bg-neutral-100 ">
           <div className="flex flex-row items-center p-0 gap-4">
             <button className="flex flex-row items-start p-1.5 gap-1 bg-neutral-100 border border-solid border-neutral-200 rounded text-xs font-normal text-neutral-400">
@@ -180,7 +180,9 @@ export default function DashboardLayout({ children }) {
             </div>
           </div>
         </header>
-        {children}
+        <div className="flex flex-col items-start p-6 gap-6 overflow-y-scroll bg-neutral-100 flex-grow w-full h-full">
+          {children}
+        </div>
       </div>
     </div>
   );
