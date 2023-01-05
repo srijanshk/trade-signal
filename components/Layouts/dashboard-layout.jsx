@@ -12,84 +12,87 @@ export default function DashboardLayout({ children }) {
   const active = usePathname();
 
   const [search, setSearch] = useState("");
+  const [show, setShow] = useState(true);
 
   return (
     <div
       className="flex flex-row items-start p-0 gap-px relative bg-neutral-300"
       style={{ minHeight: "100vh", minWidth: "100vw" }}
     >
-      <aside
-        className="flex flex-col items-start p-0 gap-px w-56 linear-background"
-        style={{ minHeight: "100vh" }}
-      >
-        <Image src="/logo-blue.svg" width={222} height={72} alt="logo" />
-        <div className="flex flex-col items-start p-2.5 gap-2.5 w-full cursor-pointer">
-          <div
-            className={classNames(
-              "flex flex-row items-start py-2 px-6 gap-2 rounded-lg h-9 text-neutral-300 text-sm font-bold hover:bg-blue-700 w-full",
-              active.includes("dashboard") && "bg-blue-700"
-            )}
-            onClick={() => router.push("/dashboard")}
-          >
-            <Image
-              src="/icon/dashboard-icon.svg"
-              width={20}
-              height={20}
-              alt="logo"
-            />
-            Dashboard
+      {show && (
+        <aside
+          className="flex flex-col items-start p-0 gap-px w-56 linear-background"
+          style={{ minHeight: "100vh" }}
+        >
+          <Image src="/logo-blue.svg" width={222} height={72} alt="logo" />
+          <div className="flex flex-col items-start p-2.5 gap-2.5 w-full cursor-pointer">
+            <div
+              className={classNames(
+                "flex flex-row items-start py-2 px-6 gap-2 rounded-lg h-9 text-neutral-300 text-sm font-bold hover:bg-blue-700 w-full",
+                active.includes("dashboard") && "bg-blue-700"
+              )}
+              onClick={() => router.push("/dashboard")}
+            >
+              <Image
+                src="/icon/dashboard-icon.svg"
+                width={20}
+                height={20}
+                alt="logo"
+              />
+              Dashboard
+            </div>
+            <div
+              className={classNames(
+                "flex flex-row items-start py-2 px-6 gap-2 rounded-lg h-9 text-neutral-300 text-sm font-bold hover:bg-blue-700 w-full",
+                active.includes("signal") && "bg-blue-700"
+              )}
+              onClick={() => router.push("/signal")}
+            >
+              <Image
+                src="/icon/dashboard-icon.svg"
+                width={20}
+                height={20}
+                alt="logo"
+              />
+              Signals
+            </div>
+            <div
+              className={classNames(
+                "flex flex-row items-start py-2 px-6 gap-2 rounded-lg h-9 text-neutral-300 text-sm font-bold hover:bg-blue-700 w-full",
+                active.includes("program") && "bg-blue-700"
+              )}
+              onClick={() => router.push("/programs")}
+            >
+              <Image
+                src="/icon/dashboard-icon.svg"
+                width={20}
+                height={20}
+                alt="logo"
+              />
+              Programs
+            </div>
+            <div
+              className={classNames(
+                "flex flex-row items-start py-2 px-6 gap-2 rounded-lg h-9 text-neutral-300 text-sm font-bold hover:bg-blue-700 w-full",
+                active.includes("my-account") && "bg-blue-700"
+              )}
+              onClick={() => router.push("/my-account")}
+            >
+              <Image
+                src="/icon/dashboard-icon.svg"
+                width={20}
+                height={20}
+                alt="logo"
+              />
+              My accounts
+            </div>
           </div>
-          <div
-            className={classNames(
-              "flex flex-row items-start py-2 px-6 gap-2 rounded-lg h-9 text-neutral-300 text-sm font-bold hover:bg-blue-700 w-full",
-              active.includes("signal") && "bg-blue-700"
-            )}
-            onClick={() => router.push("/signal")}
-          >
-            <Image
-              src="/icon/dashboard-icon.svg"
-              width={20}
-              height={20}
-              alt="logo"
-            />
-            Signals
-          </div>
-          <div
-            className={classNames(
-              "flex flex-row items-start py-2 px-6 gap-2 rounded-lg h-9 text-neutral-300 text-sm font-bold hover:bg-blue-700 w-full",
-              active.includes("program") && "bg-blue-700"
-            )}
-            onClick={() => router.push("/programs")}
-          >
-            <Image
-              src="/icon/dashboard-icon.svg"
-              width={20}
-              height={20}
-              alt="logo"
-            />
-            Programs
-          </div>
-          <div
-            className={classNames(
-              "flex flex-row items-start py-2 px-6 gap-2 rounded-lg h-9 text-neutral-300 text-sm font-bold hover:bg-blue-700 w-full",
-              active.includes("my-account") && "bg-blue-700"
-            )}
-            onClick={() => router.push("/my-account")}
-          >
-            <Image
-              src="/icon/dashboard-icon.svg"
-              width={20}
-              height={20}
-              alt="logo"
-            />
-            My accounts
-          </div>
-        </div>
-      </aside>
+        </aside>
+      )}
       <div className="flex flex-col items-start p-0 gap-px w-full h-screen">
         <header className="flex flex-row items-center justify-between px-7 py-5 w-full bg-neutral-100 ">
           <div className="flex flex-row items-center p-0 gap-4">
-            <button className="flex flex-row items-start p-1.5 gap-1 bg-neutral-100 border border-solid border-neutral-200 rounded text-xs font-normal text-neutral-400">
+            <button onClick={() => setShow(!show)} className="flex flex-row items-start p-1.5 gap-1 bg-neutral-100 border border-solid border-neutral-200 rounded text-xs font-normal text-neutral-400">
               <Image
                 src="/icon/sidebar.svg"
                 width={16}
