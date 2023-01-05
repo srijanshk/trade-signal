@@ -29,6 +29,7 @@ export default function DashboardLayout({ children }) {
               "flex flex-row items-start py-2 px-6 gap-2 rounded-lg h-9 text-neutral-300 text-sm font-bold hover:bg-blue-700 w-full",
               active.includes("dashboard") && "bg-blue-700"
             )}
+            onClick={() => router.push("/dashboard")}
           >
             <Image
               src="/icon/dashboard-icon.svg"
@@ -43,6 +44,7 @@ export default function DashboardLayout({ children }) {
               "flex flex-row items-start py-2 px-6 gap-2 rounded-lg h-9 text-neutral-300 text-sm font-bold hover:bg-blue-700 w-full",
               active.includes("signal") && "bg-blue-700"
             )}
+            onClick={() => router.push("/signal")}
           >
             <Image
               src="/icon/dashboard-icon.svg"
@@ -57,6 +59,7 @@ export default function DashboardLayout({ children }) {
               "flex flex-row items-start py-2 px-6 gap-2 rounded-lg h-9 text-neutral-300 text-sm font-bold hover:bg-blue-700 w-full",
               active.includes("program") && "bg-blue-700"
             )}
+            onClick={() => router.push("/programs")}
           >
             <Image
               src="/icon/dashboard-icon.svg"
@@ -69,8 +72,9 @@ export default function DashboardLayout({ children }) {
           <div
             className={classNames(
               "flex flex-row items-start py-2 px-6 gap-2 rounded-lg h-9 text-neutral-300 text-sm font-bold hover:bg-blue-700 w-full",
-              active.includes("account") && "bg-blue-700"
+              active.includes("my-account") && "bg-blue-700"
             )}
+            onClick={() => router.push("/my-account")}
           >
             <Image
               src="/icon/dashboard-icon.svg"

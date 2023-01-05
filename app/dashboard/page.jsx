@@ -1,3 +1,3 @@
 export default function Dashboard() {
-    return <p>Under Progress</p>
+    return <p>Dashboard Under Progress</p>
 }
