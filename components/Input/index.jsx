@@ -9,6 +9,7 @@ const Input = ({
   type = "text",
   as = "input",
   rows = "1",
+  margin = "mb-3",
   disabled = false,
   error = "",
   placeholder = "",
@@ -68,12 +69,13 @@ const Input = ({
         <input
           {...options}
           className={classNames(
-            "shadow h-14 appearance-none py-2 px-3 text-neutral-400 mb-3 leading-tight focus:outline-none focus:shadow-outline",
+            "shadow h-14 appearance-none py-2 px-3 text-neutral-400 leading-tight focus:outline-none focus:shadow-outline",
             preIcon ? "pl-8" : "pl-4",
             width,
             height,
             border,
             ringSize,
+            margin,
             disabled ? "bg-neutral-200" : "bg-neutral-100"
           )}
           autoComplete="new-password"
@@ -141,6 +143,7 @@ Input.propTypes = {
   type: PropTypes.string,
   width: PropTypes.string,
   height: PropTypes.string,
+  margin: PropTypes.string,
   ringSize: PropTypes.string,
   border: PropTypes.string,
   postIcon: PropTypes.element,
@@ -168,6 +171,7 @@ Input.defaultProps = {
   clear: false,
   width: "w-80",
   height: "h-14",
+  margin: "mb-3",
   ringSize: 'rounded',
   border: "border border-solid border-neutral-200",
   type: "text",

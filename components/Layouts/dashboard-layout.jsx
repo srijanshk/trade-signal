@@ -5,6 +5,7 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import Input from "../Input";
+import Button from "../Button";
 
 export default function DashboardLayout({ children }) {
   const router = useRouter();
@@ -82,7 +83,7 @@ export default function DashboardLayout({ children }) {
         </div>
       </aside>
       <div className="flex flex-col items-start p-0 gap-px w-full">
-        <header className="flex flex-row items-center justify-between px-7 py-5 gap-96 w-full bg-neutral-100 ">
+        <header className="flex flex-row items-center justify-between px-7 py-5 w-full bg-neutral-100 ">
           <div className="flex flex-row items-center p-0 gap-4">
             <button className="flex flex-row items-start p-1.5 gap-1 bg-neutral-100 border border-solid border-neutral-200 rounded text-xs font-normal text-neutral-400">
               <Image
@@ -121,9 +122,9 @@ export default function DashboardLayout({ children }) {
                 border="border border-solid border-neutral-200"
                 ringSize="rounded-lg"
                 height="h-7"
+                margin=""
                 preIcon={
                   <Image
-                    className="mb-2.5"
                     src="/icon/circle-profile.svg"
                     width={20}
                     height={20}
@@ -137,6 +138,42 @@ export default function DashboardLayout({ children }) {
                   src="/icon/search.svg"
                   width={13}
                   height={13}
+                  alt="logo"
+                />
+              </div>
+            </div>
+            <Button
+              name="Create signal"
+              padding="p-1.5 gap-1"
+              color="bg-blue-600 hover:bg-blue-700"
+              size="h-7"
+              textStyle="text-xs font-regular text-blue-50"
+              preIcon={
+                <Image src="/icon/plus.svg" width={12} height={12} alt="logo" />
+              }
+            />
+            <div className="flex flex-row items-start p-0 gap-2">
+              <div className="box-border flex flex-row flex-start p-1.5 gap-1 bg-neutral-100 rounded border border-solid border-neutral-200 cursor-pointer h-7 w-7">
+                <Image
+                  src="/icon/brigthness.svg"
+                  width={15}
+                  height={15}
+                  alt="logo"
+                />
+              </div>
+              <div className="box-border flex flex-row flex-start p-1.5 gap-1 bg-neutral-100 rounded border border-solid border-neutral-200 cursor-pointer h-7 w-7">
+                <Image
+                  src="/icon/time.svg"
+                  width={12.52}
+                  height={11.96}
+                  alt="logo"
+                />
+              </div>
+              <div className="box-border flex flex-row flex-start p-1.5 gap-1 bg-neutral-100 rounded border border-solid border-neutral-200 cursor-pointer h-7 w-7">
+                <Image
+                  src="/icon/notification.svg"
+                  width={11.87}
+                  height={13.5}
                   alt="logo"
                 />
               </div>

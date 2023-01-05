@@ -5,6 +5,7 @@ import { isEmpty } from "ramda";
 const Button = ({
   className,
   preIcon,
+  padding,
   postIcon,
   color,
   border,
@@ -29,12 +30,13 @@ const Button = ({
     <button
       type="button"
       className={classNames(
-        "py-2 px-4 focus:outline-none focus:shadow-outline flex justify-between items-center",
+        "focus:outline-none focus:shadow-outline flex justify-between items-center",
         ringSize,
         color,
         border,
         size,
         className,
+        padding,
         disabled && "cursor-not-allowed"
       )}
       disabled={disabled && isEmpty(alert)}
@@ -50,6 +52,7 @@ const Button = ({
 Button.propTypes = {
   className: PropTypes.string,
   border: PropTypes.string,
+  padding: PropTypes.string,
   size: PropTypes.string,
   name: PropTypes.string,
   disabled: PropTypes.bool,
@@ -62,6 +65,7 @@ Button.propTypes = {
 
 Button.defaultProps = {
   className: "",
+  padding: "py-2 px-4 ",
   border: "border border-solid border-blue-600",
   size: "",
   color: "bg-blue-50 hover:bg-blue-100",
