@@ -24,3 +24,7 @@ a {
     color-scheme: dark;
   } */
 }
+
+.linear-background {
+  background: linear-gradient(90deg, #214BC1 0%, #1E40AE 100%);
+}

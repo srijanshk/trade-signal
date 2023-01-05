@@ -12,6 +12,8 @@ const Input = ({
   disabled = false,
   error = "",
   placeholder = "",
+  ringSize= "rounded",
+  border= "border border-solid border-neutral-200",
   inputRef = { current: null },
   maxLength = 0,
   min = 0,
@@ -58,7 +60,7 @@ const Input = ({
   return (
     <div className="relative">
       {!isNil(preIcon) && (
-        <div className="absolute inset-y-0 left-0 pr-3 flex items-center text-sm leading-5">
+        <div className="absolute inset-y-0 left-0 pl-3 flex items-center text-sm leading-5">
           {preIcon}
         </div>
       )}
@@ -66,10 +68,12 @@ const Input = ({
         <input
           {...options}
           className={classNames(
-            "shadow h-14 appearance-none borde border-neutral-200 rounded py-2 px-3 text-neutral-400 mb-3 leading-tight focus:outline-none focus:shadow-outline",
+            "shadow h-14 appearance-none py-2 px-3 text-neutral-400 mb-3 leading-tight focus:outline-none focus:shadow-outline",
             preIcon ? "pl-8" : "pl-4",
             width,
             height,
+            border,
+            ringSize,
             disabled ? "bg-neutral-200" : "bg-neutral-100"
           )}
           autoComplete="new-password"
@@ -91,10 +95,12 @@ const Input = ({
         <textarea
           {...options}
           className={classNames(
-            "shadow h-14 appearance-none borde border-neutral-200 rounded py-2 px-3 text-neutral-400 mb-3 leading-tight focus:outline-none focus:shadow-outline",
+            "shadow h-14 appearance-none py-2 px-3 text-neutral-400 mb-3 leading-tight focus:outline-none focus:shadow-outline",
             preIcon ? "pl-8" : "pl-4",
             width,
             height,
+            border,
+            ringSize,
             disabled ? "bg-neutral-200" : "bg-neutral-100"
           )}
           disabled={disabled}
@@ -135,6 +141,8 @@ Input.propTypes = {
   type: PropTypes.string,
   width: PropTypes.string,
   height: PropTypes.string,
+  ringSize: PropTypes.string,
+  border: PropTypes.string,
   postIcon: PropTypes.element,
   preIcon: PropTypes.element,
   as: PropTypes.oneOf(["input", "textarea"]),
@@ -160,6 +168,8 @@ Input.defaultProps = {
   clear: false,
   width: "w-80",
   height: "h-14",
+  ringSize: 'rounded',
+  border: "border border-solid border-neutral-200",
   type: "text",
   as: "input",
   rows: "1",
