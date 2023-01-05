@@ -10,15 +10,15 @@ import { createActions } from "reduxsauce";
 const { Types, Creators } = createActions({
   postloginRequest: ['payload', 'callBack'],
   postloginSuccess: ['response'],
-  postloginFailure: null,
+  postloginFailure: ['response'],
 
   postlogoutRequest: null,
   postlogoutSuccess: null,
   postlogoutFailure: null,
 
-  postuserregistrationRequest: ['payload'],
+  postuserregistrationRequest: ['payload', 'callBack'],
   postuserregistrationSuccess: ['response'],
-  postuserregistrationFailure: null,
+  postuserregistrationFailure: ['response'],
 
   // Clear all caches
   clearRequest: null,

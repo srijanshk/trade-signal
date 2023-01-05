@@ -1,13 +1,58 @@
 "use client";
 
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
+import AppActions from "../../redux/actions/app";
 import styles from "./signup.module.css";
+import Input from "../../components/Input";
+import Button from "../../components/Button";
 
 export function SignUp() {
-  const [show, setShow] = useState(false);
-  const [confirmShow, setConfirmShow] = useState(false);
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const [show, setShow] = useState(true);
+  const [confirmShow, setConfirmShow] = useState(true);
   const [error, setError] = useState(false);
+
+  const registerError = useSelector((state) => state.app.registerError);
+
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [userName, setUserName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+
+  const handleSignUp = () => {
+    if (!email) return setError("Email is required");
+    if (!userName) return setError("Username is required");
+    if (!password) return setError("Password is required");
+    if (!confirmPassword) return setError("Confirm Password is required");
+    if (password !== confirmPassword)
+      return setError("Password and Confirm Password Mismatched");
+    if (!email && !password && !userName && !confirmPassword) return null;
+    else {
+      dispatch(
+        AppActions.postuserregistrationRequest(
+          {
+            email,
+            password,
+            userName,
+            firstName,
+            lastName,
+          },
+          handleNavigation
+        )
+      );
+    }
+  };
+
+  const handleNavigation = () => {
+    router.push("/");
+  };
 
   return (
     <div
@@ -27,31 +72,40 @@ export function SignUp() {
           </div>
           {error && (
             <div className="flex flex-row items-start p-2 border border-solid border-red-100 bg-red-50 w-full font-normal text-base text-red-800">
-              Email address and Password donot match. Check the information and
-              try again.
+              {error}
             </div>
           )}
+          {registerError && (
+            <div className="flex flex-row items-start p-2 border border-solid border-red-100 bg-red-50 w-full font-normal text-base text-red-800">
+              {registerError}
+            </div>
+          )}
+
           <div className="flex flex-row items-start gap-4">
-            <input
-              className="shadow w-72 h-14 appearance-none borde bg-neutral-100 border-neutral-200 rounded py-2 px-3 text-neutral-400 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+            <Input
+              value={email}
+              width="w-72"
               type="text"
               placeholder="Email address"
+              onChange={(e) => setEmail(e)}
             />
-            <input
-              className="shadow w-72 h-14 appearance-none borde bg-neutral-100 border-neutral-200 rounded py-2 px-3 text-neutral-400 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+            <Input
+              value={userName}
+              width="w-72"
               type="text"
-              placeholder="User handle"
+              placeholder="Username"
+              onChange={(e) => setUserName(e)}
             />
           </div>
           <div className="flex flex-row items-start gap-4">
-            <div className="relative">
-              <input
-                className="shadow w-72 h-14 appearance-none borde bg-neutral-100 border-neutral-200 rounded py-2 px-3 text-neutral-400 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                placeholder="Password"
-                type={show ? "password" : "text"}
-              />
-              <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
-                {show ? (
+            <Input
+              placeholder="Password"
+              width="w-72"
+              type={show ? "password" : "text"}
+              value={password}
+              onChange={(e) => setPassword(e)}
+              postIcon={
+                !show ? (
                   <Image
                     src="/icon/eye.svg"
                     className="cursor-pointer mb-2"
@@ -71,17 +125,17 @@ export function SignUp() {
                     color="#F9F9F9"
                     onClick={() => setShow(!show)}
                   />
-                )}
-              </div>
-            </div>
-            <div className="relative">
-              <input
-                className="shadow w-72 h-14 appearance-none borde bg-neutral-100 border-neutral-200 rounded py-2 px-3 text-neutral-400 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                placeholder="Confirm Password"
-                type={confirmShow ? "password" : "text"}
-              />
-              <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
-                {confirmShow ? (
+                )
+              }
+            />
+            <Input
+              placeholder="Confirm Password"
+              type={confirmShow ? "password" : "text"}
+              width="w-72"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e)}
+              postIcon={
+                !confirmShow ? (
                   <Image
                     src="/icon/eye.svg"
                     className="cursor-pointer mb-2"
@@ -89,7 +143,7 @@ export function SignUp() {
                     height={12.5}
                     alt="Picture of the eye"
                     color="#F9F9F9"
-                    onClick={() => setConfirmShow(!confirmShow)}
+                    onClick={() => setShow(!show)}
                   />
                 ) : (
                   <Image
@@ -99,11 +153,11 @@ export function SignUp() {
                     height={12.5}
                     alt="Picture of the eye with slash"
                     color="#F9F9F9"
-                    onClick={() => setConfirmShow(!confirmShow)}
+                    onClick={() => setShow(!show)}
                   />
-                )}
-              </div>
-            </div>
+                )
+              }
+            />
           </div>
           <div className="flex flex-row items-center p-2 gap-2 w-full">
             <div className="bg-neutral-200 rounded-t-sm rounded-r-sm rounded-l-sm h-0.5 w-52" />
@@ -114,28 +168,40 @@ export function SignUp() {
           </div>
 
           <div className="flex flex-row items-start gap-4">
-            <input
-              className="shadow w-72 h-14 appearance-none borde bg-neutral-100 border-neutral-200 rounded py-2 px-3 text-neutral-400 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+            <Input
+              value={firstName}
+              width="w-72"
               type="text"
               placeholder="First name"
+              onChange={(e) => setFirstName(e)}
             />
-            <input
-              className="shadow w-72 h-14 appearance-none borde bg-neutral-100 border-neutral-200 rounded py-2 px-3 text-neutral-400 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+            <Input
+              value={lastName}
+              width="w-72"
               type="text"
-              placeholder="Last name "
+              placeholder="Last name"
+              onChange={(e) => setLastName(e)}
             />
           </div>
 
           <div className="flex items-center justify-between w-full">
-            <button
-              className="w-48 bg-blue-50 hover:bg-blue-100 py-2 px-4 rounded border border-solid border-blue-600 focus:outline-none focus:shadow-outline flex justify-between items-center"
-              type="button"
-            >
-              <Image src={"/icon/people_plus.svg"} width={20} height={20} />
-              <div className="text-blue-600 text-base font-medium ">
-                Sign Up
-              </div>
-            </button>
+            <Button
+              name="Sign Up"
+              color="bg-blue-50 hover:bg-blue-100"
+              ringSize="rounded"
+              size="w-48"
+              border="border border-solid border-blue-600"
+              textStyle="text-blue-600 text-base font-medium"
+              preIcon={
+                <Image
+                  src={"/icon/people_plus.svg"}
+                  width={20}
+                  height={20}
+                  alt="logo"
+                />
+              }
+              onClick={handleSignUp}
+            />
           </div>
 
           <div className="bg-neutral-200 rounded-t-sm rounded-r-sm rounded-l-sm h-0.5 w-full" />
@@ -143,13 +209,23 @@ export function SignUp() {
             <div className="text-right text-sm font-medium text-neutral-600 ">
               Already have an account?
             </div>
-            <button
-              className="w-48 bg-blue-600 hover:bg-blue-700 py-2 px-4 rounded border border-solid border-blue-600 focus:outline-none focus:shadow-outline flex justify-between items-center"
-              type="button"
-            >
-              <div className="text-blue-50 text-base font-medium ">Sign In</div>
-              <Image src={"/icon/signin.svg"} width={20} height={20} />
-            </button>
+            <Button
+              name="Sign In"
+              color="bg-blue-600 hover:bg-blue-700"
+              ringSize="rounded"
+              size="w-48"
+              border="border border-solid border-blue-600"
+              textStyle="text-blue-50 text-base font-medium"
+              postIcon={
+                <Image
+                  src={"/icon/signin.svg"}
+                  width={20}
+                  height={20}
+                  alt="icon"
+                />
+              }
+              onClick={() => router.push("/")}
+            />
           </div>
         </form>
       </div>

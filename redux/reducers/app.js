@@ -6,7 +6,9 @@ import { removeStatus } from "../../utils/utils";
 const initialState = {
   status: [],
   token: '',
-  user: null
+  user: null,
+  loginError: "",
+  registerError: ""
 };
 
 const postloginRequest = produce((draft, action) => {
@@ -18,8 +20,11 @@ const postloginSuccess = produce((draft, action) => {
   console.log(action)
   draft.token = token
   draft.user = user
+  draft.loginError = ""
 })
 const postloginFailure = produce((draft, action) => {
+  const { error } = action.response
+  draft.loginError = error
   draft.status = removeStatus('pending-plr', draft.status)
 })
 
@@ -37,9 +42,11 @@ const postuserregistrationRequest = produce((draft, action) => {
   draft.status.push('pending-plr')
 })
 const postuserregistrationSuccess = produce((draft, action) => {
+  draft.registerError = ""
   draft.status = removeStatus('pending-plr', draft.status)
 })
 const postuserregistrationFailure = produce((draft, action) => {
+  draft.registerError = action.response.error
   draft.status = removeStatus('pending-plr', draft.status)
 })
 

@@ -1,23 +1,31 @@
 "use client";
 
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useRouter } from 'next/navigation';
+import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
-import styles from "./page.module.css";
-import { validateEmail } from "../utils/utils";
+import { isNull } from "lodash";
 import Input from "../components/Input";
+import Button from "../components/Button";
+import { validateEmail } from "../utils/utils";
 import AppActions from "../redux/actions/app";
+import styles from "./page.module.css";
 
 export function Login() {
   const dispatch = useDispatch();
-  const router = useRouter()
+  const router = useRouter();
 
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
   const [error, setError] = useState(false);
 
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState("");
+
+  const token = useSelector((state) => state.app.token);
+  const user = useSelector((state) => state.app.user);
+  const loginError = useSelector((state) => state.app.loginError);
+
+  if (token && !isNull(user)) return router.push("/dashboard");
 
   const handleEmail = (e) => {
     if (validateEmail(e)) {
@@ -27,23 +35,25 @@ export function Login() {
   };
 
   const handleLogin = () => {
-    if (!email) setEmailError("Email is required");
-    if (!password) setPasswordError("Password is required");
+    if (!email) return setError("Email is required");
+    if (!password) return setError("Password is required");
     if (!email && !password) return null;
     if (email && password) {
       dispatch(
-        AppActions.postloginRequest({
-          email: email,
-          password,
-          locationId: location.id,
-        }, handleNavigation)
+        AppActions.postloginRequest(
+          {
+            email: email,
+            password,
+          },
+          handleNavigation
+        )
       );
     }
   };
 
   const handleNavigation = () => {
-    router.push('/dashboard')
-  }
+    router.push("/dashboard");
+  };
 
   return (
     <div
@@ -65,8 +75,12 @@ export function Login() {
           </div>
           {error && (
             <div className="flex flex-row items-start p-2 border border-solid border-red-100 bg-red-50 w-full font-normal text-base text-red-800">
-              Email address and Password donot match. Check the information and
-              try again.
+              {error}
+            </div>
+          )}
+          {loginError && (
+            <div className="flex flex-row items-start p-2 border border-solid border-red-100 bg-red-50 w-full font-normal text-base text-red-800">
+              {loginError}
             </div>
           )}
           <Input
@@ -81,7 +95,7 @@ export function Login() {
             value={password}
             onChange={(e) => setPassword(e)}
             postIcon={
-              show ? (
+              !show ? (
                 <Image
                   src="/icon/eye.svg"
                   className="cursor-pointer mb-2"
@@ -118,14 +132,23 @@ export function Login() {
           </div>
 
           <div className="flex items-center justify-between w-full">
-            <button
-              className="w-full bg-blue-600 hover:bg-blue-700 py-2 px-4 rounded border border-solid border-blue-600 focus:outline-none focus:shadow-outline flex justify-between items-center"
-              type="button"
+            <Button
+              name="Sign In"
+              color="bg-blue-600 hover:bg-blue-700"
+              ringSize="rounded"
+              size="w-full"
+              border="border border-solid border-blue-600"
+              textStyle="text-blue-50 text-base font-medium"
+              postIcon={
+                <Image
+                  src={"/icon/signin.svg"}
+                  width={20}
+                  height={20}
+                  alt="icon"
+                />
+              }
               onClick={handleLogin}
-            >
-              <div className="text-blue-50 text-base font-medium ">Sign In</div>
-              <Image src={"/icon/signin.svg"} width={20} height={20} alt="icon" />
-            </button>
+            />
           </div>
 
           <div className="bg-neutral-200 rounded-t-sm rounded-r-sm rounded-l-sm h-0.5 w-full" />
@@ -133,15 +156,23 @@ export function Login() {
             <div className="text-right text-sm font-medium text-neutral-600 ">
               No account yet? No. problem
             </div>
-            <button
-              className="w-48 bg-blue-50 hover:bg-blue-100 py-2 px-4 rounded border border-solid border-blue-600 focus:outline-none focus:shadow-outline flex justify-between items-center"
-              type="button"
-            >
-              <Image src={"/icon/people_plus.svg"} width={20} height={20} alt="logo" />
-              <div className="text-blue-600 text-base font-medium ">
-                Sign Up
-              </div>
-            </button>
+            <Button
+              name="Sign Up"
+              color="bg-blue-50 hover:bg-blue-100"
+              ringSize="rounded"
+              size="w-48"
+              border="border border-solid border-blue-600"
+              textStyle="text-blue-600 text-base font-medium"
+              preIcon={
+                <Image
+                  src={"/icon/people_plus.svg"}
+                  width={20}
+                  height={20}
+                  alt="logo"
+                />
+              }
+              onClick={() => router.push('/signup')}
+            />
           </div>
         </form>
       </div>
