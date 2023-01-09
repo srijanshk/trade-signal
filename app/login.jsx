@@ -171,7 +171,7 @@ export function Login() {
                   alt="logo"
                 />
               }
-              onClick={() => router.push('/signup')}
+              onClick={() => router.push("/signup")}
             />
           </div>
         </form>

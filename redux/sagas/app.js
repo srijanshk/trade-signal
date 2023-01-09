@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { call, put, select } from "redux-saga/effects";
 import AppActions from "../actions/app";
 
@@ -15,9 +16,19 @@ export function* postloginRequest(api, action) {
       yield put(AppActions.postloginSuccess({ token, user }));
       if (callBack) yield callBack();
     } else {
+      toast.error(response.data.error, {
+        position: toast.POSITION.TOP_RIGHT,
+        pauseOnFocusLoss: false,
+        hideProgressBar: true,
+      });
       yield put(AppActions.postloginFailure({ error: response.data.error }));
     }
   } catch (e) {
+    toast.error(e.response.data.error, {
+      position: toast.POSITION.TOP_RIGHT,
+      pauseOnFocusLoss: false,
+      hideProgressBar: true,
+    });
     yield put(AppActions.postloginFailure({ error: e.response.data.error }));
   }
 }
@@ -38,13 +49,102 @@ export function* postuserregistrationRequest(api, action) {
       yield put(AppActions.postuserregistrationSuccess());
       if (callBack) yield callBack();
     } else {
+      toast.error(response.data.error, {
+        position: toast.POSITION.TOP_RIGHT,
+        pauseOnFocusLoss: false,
+        hideProgressBar: true,
+      });
       yield put(
         AppActions.postuserregistrationFailure({ error: response.data.error })
       );
     }
   } catch (e) {
+    toast.error(e.response.data.error, {
+      position: toast.POSITION.TOP_RIGHT,
+      pauseOnFocusLoss: false,
+      hideProgressBar: true,
+    });
     yield put(
       AppActions.postuserregistrationFailure({ error: e.response.data.error })
     );
+  }
+}
+
+export function* createsignalRequest(api, action) {
+  const { payload, callBack } = action;
+
+  try {
+    const response = yield api.createSignal(payload);
+
+    if (response.status === 201) {
+      yield put(AppActions.createsignalSuccess());
+      if (callBack) yield callBack();
+    } else {
+      toast.error(response.data.error, {
+        position: toast.POSITION.TOP_RIGHT,
+        pauseOnFocusLoss: false,
+        hideProgressBar: true,
+      });
+      yield put(AppActions.createsignalFailure({ error: response.data.error }));
+    }
+  } catch (e) {
+    toast.error(e.response.data.error, {
+      position: toast.POSITION.TOP_RIGHT,
+      pauseOnFocusLoss: false,
+      hideProgressBar: true,
+    });
+    yield put(AppActions.createsignalFailure({ error: e.response.data.error }));
+  }
+}
+
+export function* getallsignalRequest(api, action) {
+  const { options } = action;
+
+  try {
+    const response = yield api.getAllSignals(options);
+
+    if (response.status === 200) {
+      yield put(AppActions.getallsignalSuccess(response.data));
+    } else {
+      toast.error(response.data.error, {
+        position: toast.POSITION.TOP_RIGHT,
+        pauseOnFocusLoss: false,
+        hideProgressBar: true,
+      });
+      yield put(AppActions.getallsignalFailure());
+    }
+  } catch (e) {
+    toast.error(e.response.data.error, {
+      position: toast.POSITION.TOP_RIGHT,
+      pauseOnFocusLoss: false,
+      hideProgressBar: true,
+    });
+    yield put(AppActions.getallsignalFailure());
+  }
+}
+
+export function* getsignalRequest(api, action) {
+  const { id } = action;
+
+  try {
+    const response = yield api.getSignal(id);
+
+    if (response.status === 200) {
+      yield put(AppActions.getsignalSuccess(response.data));
+    } else {
+      toast.error(response.data.error, {
+        position: toast.POSITION.TOP_RIGHT,
+        pauseOnFocusLoss: false,
+        hideProgressBar: true,
+      });
+      yield put(AppActions.getsignalFailure());
+    }
+  } catch (e) {
+    toast.error(e.response.data.error, {
+      position: toast.POSITION.TOP_RIGHT,
+      pauseOnFocusLoss: false,
+      hideProgressBar: true,
+    });
+    yield put(AppActions.getsignalFailure());
   }
 }

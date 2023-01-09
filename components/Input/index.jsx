@@ -6,6 +6,7 @@ import { isEmpty, isNil } from "ramda";
 const Input = ({
   value = "",
   className = "",
+  title="",
   type = "text",
   as = "input",
   rows = "1",
@@ -59,7 +60,8 @@ const Input = ({
   const options = maxLength !== 0 ? { maxLength } : {};
 
   return (
-    <div className="relative">
+    <div className={classNames("relative flex flex-col gap-2", width)}>
+      {title && <span className="text-sm font-semibold text-neutral-600">{title}</span>}
       {!isNil(preIcon) && (
         <div className="absolute inset-y-0 left-0 pl-3 flex items-center text-sm leading-5">
           {preIcon}

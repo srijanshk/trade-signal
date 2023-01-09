@@ -3,16 +3,20 @@
 import classNames from "classnames";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { Fragment, useRef, useState } from "react";
 import Input from "../Input";
 import Button from "../Button";
+import { Dialog, Transition } from "@headlessui/react";
+import CreateSignal from "../Modal/CreateSignal";
 
 export default function DashboardLayout({ children }) {
   const router = useRouter();
   const active = usePathname();
+  const cancelButtonRef = useRef(null);
 
   const [search, setSearch] = useState("");
   const [show, setShow] = useState(true);
+  const [showSignalDialog, setShowSignal] = useState(false);
 
   return (
     <div
@@ -92,7 +96,10 @@ export default function DashboardLayout({ children }) {
       <div className="flex flex-col items-start p-0 gap-px w-full h-screen">
         <header className="flex flex-row items-center justify-between px-7 py-5 w-full bg-neutral-100 ">
           <div className="flex flex-row items-center p-0 gap-4">
-            <button onClick={() => setShow(!show)} className="flex flex-row items-start p-1.5 gap-1 bg-neutral-100 border border-solid border-neutral-200 rounded text-xs font-normal text-neutral-400">
+            <button
+              onClick={() => setShow(!show)}
+              className="flex flex-row items-start p-1.5 gap-1 bg-neutral-100 border border-solid border-neutral-200 rounded text-xs font-normal text-neutral-400"
+            >
               <Image
                 src="/icon/sidebar.svg"
                 width={16}
@@ -158,7 +165,9 @@ export default function DashboardLayout({ children }) {
               preIcon={
                 <Image src="/icon/plus.svg" width={12} height={12} alt="logo" />
               }
+              onClick={() => setShowSignal(true)}
             />
+
             <div className="flex flex-row items-start p-0 gap-2">
               <div className="box-border flex flex-row flex-start p-1.5 gap-1 bg-neutral-100 rounded border border-solid border-neutral-200 cursor-pointer h-7 w-7">
                 <Image
@@ -190,6 +199,7 @@ export default function DashboardLayout({ children }) {
         <div className="flex flex-col items-start p-6 gap-6 overflow-y-scroll bg-neutral-100 flex-grow w-full h-full">
           {children}
         </div>
+        <CreateSignal modal={showSignalDialog} onClose={e => setShowSignal(e)} />
       </div>
     </div>
   );

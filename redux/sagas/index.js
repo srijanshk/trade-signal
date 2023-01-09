@@ -1,6 +1,9 @@
 import { takeEvery, takeLatest, all } from "redux-saga/effects";
 import API from "../../utils/api";
 import {
+  createsignalRequest,
+  getallsignalRequest,
+  getsignalRequest,
   postloginRequest,
   postlogoutRequest,
   postuserregistrationRequest,
@@ -17,5 +20,8 @@ export default function* root() {
       postuserregistrationRequest,
       api
     ),
+    takeLatest(AppTypes.CREATESIGNAL_REQUEST, createsignalRequest, api),
+    takeLatest(AppTypes.GETALLSIGNAL_REQUEST, getallsignalRequest, api),
+    takeLatest(AppTypes.GETSIGNAL_REQUEST, getsignalRequest, api),
   ]);
 }

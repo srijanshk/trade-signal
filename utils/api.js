@@ -20,23 +20,20 @@ const create = (baseURL = Config.API_URL) => {
     timeout: 50000,
   });
 
-  const formdataApi = axios.create({
-    baseURL,
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "multipart/form-data",
-      apikeyid: Config.api_key_id,
-    },
-    // 50 second timeout...
-    timeout: 50000,
-  });
-
   const postLogin = (payload) => api.post("auth/email/login", payload);
-  const postRegistration = (payload) => api.post("auth/email/register", payload)
+  const postRegistration = (payload) =>
+    api.post("auth/email/register", payload);
+
+  const createSignal = (payload) => api.post("signal", payload);
+  const getAllSignals = (options) => api.get("signal", { params: options });
+  const getSignal = (id) => api.get(`signal/${id}`, payload);
 
   return {
     postLogin,
-    postRegistration
+    postRegistration,
+    createSignal,
+    getAllSignals,
+    getSignal,
   };
 };
 
