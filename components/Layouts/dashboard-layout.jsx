@@ -18,7 +18,7 @@ export default function DashboardLayout({ children }) {
   const token = useSelector((state) => state.app.token);
   const user = useSelector((state) => state.app.user);
 
-  if (!token && !user.id) return router.push("/");
+  if (!token && !user?.id) return router.push("/");
 
   const [search, setSearch] = useState("");
   const [show, setShow] = useState(true);
