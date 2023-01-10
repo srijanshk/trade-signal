@@ -71,7 +71,7 @@ const Input = ({
         <input
           {...options}
           className={classNames(
-            "shadow h-14 appearance-none py-2 px-3 text-neutral-400 leading-tight focus:outline-none focus:shadow-outline",
+            "shadow h-14 appearance-none py-2 px-3 palceholder-neutral-400 text-neutral-700 leading-tight focus:outline-none focus:shadow-outline",
             preIcon ? "pl-8" : "pl-4",
             width,
             height,

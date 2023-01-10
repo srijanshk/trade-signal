@@ -161,8 +161,8 @@ const CreateSignal = ({ modal = false, onClose = () => {} }) => {
                         </div>
                         <div className="flex flex-row items-start gap-2.5 w-full">
                           <Input
-                            placeholder="Tricker"
-                            title="Tricker"
+                            placeholder="Ticker"
+                            title="Ticker"
                             width="w-full"
                             value={ticker}
                             onChange={(e) => setTicker(e)}
