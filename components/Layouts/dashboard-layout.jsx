@@ -4,6 +4,7 @@ import classNames from "classnames";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { Fragment, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import Input from "../Input";
 import Button from "../Button";
 import { Dialog, Transition } from "@headlessui/react";
@@ -13,6 +14,11 @@ export default function DashboardLayout({ children }) {
   const router = useRouter();
   const active = usePathname();
   const cancelButtonRef = useRef(null);
+
+  const token = useSelector((state) => state.app.token);
+  const user = useSelector((state) => state.app.user);
+
+  if (!token && !user.id) return router.push("/");
 
   const [search, setSearch] = useState("");
   const [show, setShow] = useState(true);
@@ -199,7 +205,10 @@ export default function DashboardLayout({ children }) {
         <div className="flex flex-col items-start p-6 gap-6 overflow-y-scroll bg-neutral-100 flex-grow w-full h-full">
           {children}
         </div>
-        <CreateSignal modal={showSignalDialog} onClose={e => setShowSignal(e)} />
+        <CreateSignal
+          modal={showSignalDialog}
+          onClose={(e) => setShowSignal(e)}
+        />
       </div>
     </div>
   );

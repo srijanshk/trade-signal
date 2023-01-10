@@ -5,7 +5,7 @@ const Config = {
 };
 
 const authenticated = (api) => {
-  api.setHeader("Authorization", window.token);
+  api.defaults.headers["Authorization"] = `Bearer ${window.token || localStorage.getItem("token")}`;
   return api;
 };
 
@@ -24,9 +24,10 @@ const create = (baseURL = Config.API_URL) => {
   const postRegistration = (payload) =>
     api.post("auth/email/register", payload);
 
-  const createSignal = (payload) => api.post("signal", payload);
-  const getAllSignals = (options) => api.get("signal", { params: options });
-  const getSignal = (id) => api.get(`signal/${id}`, payload);
+  const createSignal = (payload) => authenticated(api).post("signal", payload);
+  const getAllSignals = (options) =>
+    authenticated(api).get("signal", { params: options });
+  const getSignal = (id) => authenticated(api).get(`signal/${id}`, payload);
 
   return {
     postLogin,

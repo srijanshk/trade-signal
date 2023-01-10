@@ -80,20 +80,21 @@ export function* createsignalRequest(api, action) {
       yield put(AppActions.createsignalSuccess());
       if (callBack) yield callBack();
     } else {
-      toast.error(response.data.error, {
+      toast.error(response.error, {
         position: toast.POSITION.TOP_RIGHT,
         pauseOnFocusLoss: false,
         hideProgressBar: true,
       });
-      yield put(AppActions.createsignalFailure({ error: response.data.error }));
+      yield put(AppActions.createsignalFailure({ error: response.error }));
     }
   } catch (e) {
-    toast.error(e.response.data.error, {
-      position: toast.POSITION.TOP_RIGHT,
-      pauseOnFocusLoss: false,
-      hideProgressBar: true,
-    });
-    yield put(AppActions.createsignalFailure({ error: e.response.data.error }));
+    console.log(e)
+    // toast.error(e.response.error, {
+    //   position: toast.POSITION.TOP_RIGHT,
+    //   pauseOnFocusLoss: false,
+    //   hideProgressBar: true,
+    // });
+    yield put(AppActions.createsignalFailure({ error: e.response.error }));
   }
 }
 
@@ -106,7 +107,7 @@ export function* getallsignalRequest(api, action) {
     if (response.status === 200) {
       yield put(AppActions.getallsignalSuccess(response.data));
     } else {
-      toast.error(response.data.error, {
+      toast.error(response.error, {
         position: toast.POSITION.TOP_RIGHT,
         pauseOnFocusLoss: false,
         hideProgressBar: true,
@@ -114,7 +115,7 @@ export function* getallsignalRequest(api, action) {
       yield put(AppActions.getallsignalFailure());
     }
   } catch (e) {
-    toast.error(e.response.data.error, {
+    toast.error(e.response.error, {
       position: toast.POSITION.TOP_RIGHT,
       pauseOnFocusLoss: false,
       hideProgressBar: true,
