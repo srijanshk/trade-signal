@@ -52,7 +52,7 @@ export function Login() {
   };
 
   const handleNavigation = () => {
-    router.push("/dashboard");
+    router.push("/signal");
   };
 
   return (
