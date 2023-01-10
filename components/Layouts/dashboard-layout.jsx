@@ -3,11 +3,10 @@
 import classNames from "classnames";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { Fragment, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import Input from "../Input";
 import Button from "../Button";
-import { Dialog, Transition } from "@headlessui/react";
 import CreateSignal from "../Modal/CreateSignal";
 
 export default function DashboardLayout({ children }) {
