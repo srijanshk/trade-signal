@@ -23,6 +23,7 @@ const CreateSignal = ({ modal = false, onClose = () => {} }) => {
   const [ticker, setTicker] = useState("");
   const [stopLoss, setStopLoss] = useState(0);
   const [takeProfit, setTakeProfit] = useState(0);
+  const [error, setError] = useState("");
 
   const actionTypes = [
     { id: 1, name: "Open", value: "open" },
@@ -50,19 +51,42 @@ const CreateSignal = ({ modal = false, onClose = () => {} }) => {
   };
 
   const handleSubmit = () => {
-    const payload = {
-      signalName,
-      signalDescription,
-      ticker,
-      stopLoss: parseInt(stopLoss),
-      takeProfit: parseInt(takeProfit),
-      price: parseInt(price),
-      privacy: privacy.value,
-      orderType: orderType.value,
-      actionType: actionType.value,
-      meta: "{}"
-    };
-    dispatch(AppActions.createsignalRequest(payload, handleClose));
+    if (!signalName) return setError("Signal Name is Required");
+    if (!signalDescription) return setError("Signal Description is Required");
+    if (!ticker) return setError("Ticker is Required");
+    if (!stopLoss) return setError("Stop loss value is Required");
+    if (!takeProfit) return setError("Take profit value is Required");
+    if (!price) return setError("Signal Price is Required");
+    if (!privacy) return setError("Privacy is Required");
+    if (!orderType) return setError("Order type is Required");
+    if (!actionType) return setError("Action Type is Required");
+    if (
+      !signalName &&
+      !signalDescription &&
+      !ticker &&
+      !takeProfit &&
+      !stopLoss &&
+      !price &&
+      !privacy &&
+      !orderType &&
+      !actionType
+    )
+      return null;
+    else {
+      const payload = {
+        signalName,
+        signalDescription,
+        ticker,
+        stopLoss: parseInt(stopLoss),
+        takeProfit: parseInt(takeProfit),
+        price: parseInt(price),
+        privacy: privacy?.value || null,
+        orderType: orderType?.value || null,
+        actionType: actionType?.value || null,
+        meta: "{}",
+      };
+      dispatch(AppActions.createsignalRequest(payload, handleClose));
+    }
   };
 
   return (
