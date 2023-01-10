@@ -1,3 +1,5 @@
+import { SignalPage } from "./signal";
+
 export default function Signal() {
-    return <p>Signal Under Progress</p>
+  return <SignalPage></SignalPage>;
 }

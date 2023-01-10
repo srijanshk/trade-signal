@@ -71,7 +71,7 @@ const getallsignalRequest = produce((draft, action) => {
   draft.status.push("pending-plr");
 });
 const getallsignalSuccess = produce((draft, action) => {
-  draft.signals = action.response.data;
+  draft.signals = action.response;
   draft.status = removeStatus("pending-plr", draft.status);
 });
 const getallsignalFailure = produce((draft, action) => {
