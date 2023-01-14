@@ -16,7 +16,7 @@ export function SignalPage() {
   return (
     <div className="flex flex-col items-start p-6 gap-6">
       <div className="flex flex-row items-start p-0 gap-6 flex-wrap h-full">
-        {signals.map((item, index) => (
+        {signals?.map((item, index) => (
           <div
             className="flex flex-col p-4 gap-4 bg-neutral-50 rounded-md shadow w-64"
             key={index}
